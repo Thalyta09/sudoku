@@ -180,13 +180,22 @@ public class Main {
     }
 
     private static int ExecutarAteObterNumeroValido(final int min, final int max) {
-        var current = scanner.nextInt();
-        while (current < min || current > max) {
-            System.out.printf("Informe um número entre %s e %s\n", min, max);
-            current = scanner.nextInt();
-        }
+        while (true) {
+            if (scanner.hasNextInt()) {
+                var current = scanner.nextInt();
 
-        return current;
+                if (current >= min && current <= max) {
+                    return current;
+                } else {
+                    System.out.printf("Erro: O número %d está fora do intervalo.\n", current);
+                    System.out.printf("Informe um número entre %d e %d: ", min, max);
+                }
+            } else {
+                String entradaInvalida = scanner.next();
+                System.out.println("Erro: '" + entradaInvalida + "' não é um número válido!");
+                System.out.printf("Informe um número entre %d e %d: ", min, max);
+            }
+        }
     }
 
 }
