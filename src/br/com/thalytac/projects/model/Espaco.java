@@ -34,4 +34,5 @@ public class Espaco {
     public boolean isFixo() {
         return fixo;
     }
+
 }

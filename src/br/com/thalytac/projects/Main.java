@@ -40,7 +40,12 @@ public class Main {
             System.out.println("7 - Encerrar jogo");
             System.out.println("8 - Sair");
 
-            opcoes = scanner.nextInt();
+            //Valida se foi informado um valor numérico
+            if (scanner.hasNextInt())
+                opcoes = scanner.nextInt();
+            else
+                scanner.next();
+
 
             switch (opcoes) {
                 case 1 -> IniciarJogo(posicoes);
@@ -103,12 +108,19 @@ public class Main {
         }
 
         System.out.println("Informe a coluna que o número será retirado:");
-        var col = ExecutarAteObterNumeroValido(0,8);
+        var col = ExecutarAteObterNumeroValido(0, 8);
         System.out.println("Informe a linha que o número será retirado:");
-        var linha = ExecutarAteObterNumeroValido(0,8);
+        var linha = ExecutarAteObterNumeroValido(0, 8);
 
-        if (!tabuleiro.limparValor(col, linha)) {
-            System.out.printf("A posição [%s,%s] tem um valor fixo.", col, linha);
+        //Valida se o espaço informado está vazio e se não tiver chama a função de limpar o espaço
+        List<List<Espaco>> espacos = tabuleiro.getEspacos();
+        var espacoAtual = espacos.get(col).get(linha);
+        var espaco = espacoAtual.getAtual();
+
+        if (isNull(espaco)) {
+            System.out.printf("A posição [%s,%s] está vazia.\n", col, linha);
+        } else if(!tabuleiro.limparValor(col, linha)) {
+            System.out.printf("A posição [%s,%s] tem um valor fixo.\n", col, linha);
         }
     }
 
@@ -181,6 +193,7 @@ public class Main {
 
     private static int ExecutarAteObterNumeroValido(final int min, final int max) {
         while (true) {
+            //Verifica se foi digitada um número
             if (scanner.hasNextInt()) {
                 var current = scanner.nextInt();
 
@@ -190,7 +203,7 @@ public class Main {
                     System.out.printf("Erro: O número %d está fora do intervalo.\n", current);
                     System.out.printf("Informe um número entre %d e %d: ", min, max);
                 }
-            } else {
+            } else {//Se não, retira a entrada errada e solicita novamente o número no terminal
                 String entradaInvalida = scanner.next();
                 System.out.println("Erro: '" + entradaInvalida + "' não é um número válido!");
                 System.out.printf("Informe um número entre %d e %d: ", min, max);
