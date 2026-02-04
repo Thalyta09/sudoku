@@ -62,4 +62,5 @@ public class Tabuleiro {
     public boolean jogoFinalizou() {
         return !existeErros() && getStatus().equals(COMPLETE);
     }
+
 }
